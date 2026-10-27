@@ -1,0 +1,20 @@
+{
+  "name": "we-need-to-talk",
+  "interface": {
+    "displayName": "We Need To Talk"
+  },
+  "plugins": [
+    {
+      "name": "we-need-to-talk",
+      "source": {
+        "source": "local",
+        "path": "./plugins/we-need-to-talk"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

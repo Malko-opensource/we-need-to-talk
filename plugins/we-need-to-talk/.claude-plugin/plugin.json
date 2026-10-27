@@ -1,0 +1,18 @@
+{
+  "name": "we-need-to-talk",
+  "version": "0.1.0",
+  "description": "Turn ambiguous requirements into durable specifications through sharp, evidence-backed interviews.",
+  "author": {
+    "name": "Malko",
+    "url": "https://github.com/Malko-opensource"
+  },
+  "license": "MIT",
+  "keywords": [
+    "interview",
+    "requirements",
+    "specification",
+    "architecture"
+  ],
+  "homepage": "https://github.com/Malko-opensource/we-need-to-talk",
+  "repository": "https://github.com/Malko-opensource/we-need-to-talk"
+}

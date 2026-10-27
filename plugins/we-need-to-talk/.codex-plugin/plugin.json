@@ -1,0 +1,33 @@
+{
+  "name": "we-need-to-talk",
+  "version": "0.1.0",
+  "description": "Turn ambiguous requirements into durable specifications through sharp, evidence-backed interviews.",
+  "author": {
+    "name": "Malko",
+    "url": "https://github.com/Malko-opensource"
+  },
+  "license": "MIT",
+  "keywords": [
+    "interview",
+    "requirements",
+    "specification",
+    "architecture"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "We Need To Talk",
+    "shortDescription": "Sharp interviews. Clear specs. Written receipts.",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $we-need-to-talk to interview me about my feature and write an actionable specification."
+    ],
+    "developerName": "Malko",
+    "websiteURL": "https://github.com/Malko-opensource/we-need-to-talk"
+  },
+  "homepage": "https://github.com/Malko-opensource/we-need-to-talk",
+  "repository": "https://github.com/Malko-opensource/we-need-to-talk"
+}

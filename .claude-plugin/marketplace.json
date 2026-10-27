@@ -1,0 +1,17 @@
+{
+  "name": "we-need-to-talk",
+  "owner": {
+    "name": "Malko",
+    "url": "https://github.com/Malko-opensource"
+  },
+  "metadata": {
+    "description": "Evidence-backed specification interviews for Codex and Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "we-need-to-talk",
+      "source": "./plugins/we-need-to-talk",
+      "description": "Evidence-backed specification interviews with incremental file records."
+    }
+  ]
+}

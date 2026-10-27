@@ -1,0 +1,4 @@
+interface:
+  display_name: "We Need To Talk"
+  short_description: "Sharp interviews that turn vague ideas into written specs"
+  default_prompt: "Use $we-need-to-talk to challenge my requirements and write an actionable specification in my language."
