@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1 — 2026-10-27
+
+- Limit write verification to changed sections and associated index fields; reuse unchanged instructions already in context.
+- Resume from current state and relevant decision IDs before retrieving historical detail, and avoid scanning unrelated generated output.
+- Keep the session index concise; clarify that audience documents are generated at handoff, not on every answer.
+- Document the unconfirmed Claude memory-growth report and the evidence needed to distinguish process RAM from context growth. This is a context-amplification mitigation, not a verified memory-leak fix.
+
+한국어: 누적 기록의 반복 읽기를 줄이는 완화 조치를 추가했습니다. Claude 메모리 증가 제보의 원인·해결 여부는 아직 미확인입니다.
+
 ## 0.3.0 — 2026-10-27
 
 - Add Feynman Probe and audience-adaptive framing without turning jargon or delegation into a knowledge test.

@@ -306,6 +306,8 @@ The portable skill lives in [`plugins/we-need-to-talk/skills/we-need-to-talk`](p
 
 ## Update, uninstall, and troubleshoot
 
+**Growing memory or a heavy session:** 0.3.1 narrows repeated reads to changed sections and resumes from current state before loading relevant history. This reduces avoidable context input; the reported Claude RAM increase has not been reproduced or confirmed fixed. See [memory investigation and reporting](docs/performance.md). `--contracts none` skips audience handoffs when you only need the canonical spec.
+
 - **Updating:** pull this repository and rerun the installer. An identical installation is left alone; a different one requires `--backup-existing`. Backups go under `.we-need-to-talk-backups/` beside the skill.
 - **Not in the selector:** open a new chat, check the skill directory your agent scans, and avoid installing the same skill through multiple routes.
 - **File writes unavailable:** the agent should report that and provide an unsaved draft, rather than claim persistence.
