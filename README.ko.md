@@ -9,7 +9,7 @@
 [![Validate](https://github.com/Malko-opensource/we-need-to-talk/actions/workflows/validate.yml/badge.svg)](https://github.com/Malko-opensource/we-need-to-talk/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**We Need To Talk**는 **Codex와 Claude Code**에서 사용하는 요구사항 면담 스킬입니다. 세 가지 면담 관점으로 범위·아키텍처·실패 처리를 파고들고, 답변을 받을 때마다 결정을 파일로 남깁니다. 중요한 선택의 대가를 다르게 이해한 것 같으면 짧게 확인합니다. 마지막에는 구현 에이전트에게 넘길 수 있는 실행 명세를 만듭니다.
+**We Need To Talk**는 **Codex와 Claude Code**에서 사용하는 요구사항 면담 스킬입니다. 세 가지 관점으로 범위·아키텍처·실패 처리를 파고들고, 답변마다 결정을 저장합니다. 모호한 전문용어는 풀어 묻고, 선택의 대가는 듣는 사람에게 맞춰 설명합니다. 한 번의 면담에서 공통 명세와 **개발자·경영진·디자이너/PM용 인계 문서**까지 만듭니다.
 
 모티브는 그 한마디, **“오빠 나랑 이야기 좀 해.”** 사람을 괴롭히려는 건 아닙니다. 다만 “적당히 빠르고 확장성 있게”라는 문장은 무사히 넘어가지 못할 수 있습니다.
 
@@ -35,7 +35,16 @@
 - **중단하고 재개할 수 있습니다.** 긴 채팅의 기억 대신 저장된 파일에서 이어갑니다.
 - **“내가 한 말 이해한 거 맞아?”** 중요한 선택에서 나온 “그냥 해줘”를 확정 결정으로 기록하기 전에 그 결과를 알고 있는지 확인합니다.
 
-별도 서버·API 키·추가 서비스는 필요하지 않습니다. 파일을 읽고 쓸 수 있는 Codex 또는 Claude Code 환경은 있어야 합니다.
+스킬 사용에는 파일을 읽고 쓸 수 있는 Codex 또는 Claude Code 환경이 필요하며 추가 서버·API 키는 필요하지 않습니다. 선택적으로 사용하는 실제 A/B 평가 도구에는 별도 모델 인증과 비용이 필요합니다.
+
+## 감자 면담단을 소개합니다
+
+| 범위를 줄이고 앞뒤를 맞춥니다 | 실패를 따지고 기록을 남깁니다 |
+| --- | --- |
+| <img src="docs/assets/feature-vc.png" width="360" alt="거대한 기능 탑을 MVP로 잘라내는 감자"><br>**VC · 범위 가지치기**<br>“그거 전부 v1에 필요해요?” | <img src="docs/assets/feature-partner.png" width="360" alt="서로 다른 설계도를 대조하는 탐정 감자"><br>**Partner · 모순 추궁**<br>“두 설계도의 말이 다른데요.” |
+| <img src="docs/assets/feature-security.png" width="360" alt="꺼진 노트북에서 문서를 구조하는 감자"><br>**Security · 장애 훈련**<br>“프로세스가 죽으면요?” | <img src="docs/assets/feature-records.png" width="360" alt="다음 질문 전에 답변을 파일로 저장하는 감자"><br>**매 답변 기록**<br>일단 저장. 그다음 질문. |
+| <img src="docs/assets/feature-feynman.png" width="360" alt="복잡한 설명을 세 단계로 풀어보는 감자들"><br>**Feynman Probe + Readback**<br>“누가 뭘 하고, 그다음엔요?” | <img src="docs/assets/feature-audience.png" width="360" alt="같은 시스템을 개발자 경영진 디자이너에게 설명하는 감자"><br>**청중 맞춤 설명**<br>사실은 같고, 설명의 관점은 다르게. |
+| <img src="docs/assets/feature-contracts.png" width="360" alt="하나의 명세에서 구현 판단 디자인 문서를 인쇄하는 감자"><br>**독자별 명세 3종**<br>명세 하나로 세 직군에 인계. | <img src="docs/assets/feature-evals.png" width="360" alt="기본 에이전트와 스킬 적용 조건을 공정하게 비교하는 감자"><br>**Assertion 기반 A/B 평가**<br>잘한다는 말 대신 행동과 근거를 비교. |
 
 ## 면담관을 고르세요
 
@@ -86,6 +95,27 @@ $we-need-to-talk 재시도와 크래시 대응을 따져줘 --mode security --sp
 장난스러운 캐릭터로는 **“오빠, 내가 한 말 이해한 거 맞아?”**라고 시작할 수 있습니다. 핵심은 뒤에 붙는 구체적인 상황 질문입니다. “그래도 다시 켜면 살아나지?”라는 답이 나오면 합의로 처리하지 않고 이해가 엇갈린 쟁점으로 남깁니다.
 
 중요한 선택의 결과가 불명확할 때만 확인합니다. 작은 구현 세부사항이나 이미 대가를 알고 맡긴 결정은 다시 묻지 않습니다. 설명을 요청하거나, 판단을 위임하거나, 확인 질문을 거절할 수 있습니다. 지식을 채점하거나 같은 승인을 반복해서 받는 절차가 아닙니다.
+
+## “전문용어 빼고 흐름을 설명해 봐요”
+
+**Feynman Probe**는 용어 뒤에 주체·순서·완료·실패 동작이 가려져 있을 때 사용합니다. 전문용어를 쓴 것 자체가 문제는 아닙니다.
+
+> **나:** “느슨하게 결합한 이벤트 드리븐이니까 알아서 복구되겠지.”
+>
+> **스킬:** “그 표현을 빼고 주문 하나가 처리되는 순서로 말해볼까요? 전달이 안 됐다는 걸 누가 알아채고, 누가 다시 보내요?”
+>
+> **나:** “사실 모르겠어. 선택지를 설명해줘.”
+>
+> **스킬:** *다시 시험하지 않고 선택지와 차이를 설명합니다.*
+
+Feynman Probe는 흐름의 빈칸을 찾고, Readback은 선택의 결과와 기대가 맞는지 확인합니다. 두 기능을 합쳐 한 번에 1~2개만 묻고, 알고 맡기는 위임은 존중합니다.
+
+**청중 맞춤 설명**은 같은 사실의 어휘와 강조점을 바꿉니다. 대표에게는 “저장하지 않은 문서”, 개발자에게는 RAM과 디스크의 경계, 디자이너에게는 초안을 잃은 화면과 복구 흐름으로 설명할 수 있습니다. 비유 뒤에는 실제 시스템과의 대응·한계를 붙입니다. 다른 사본이 없는 RAM 초안은 종료 시 사라질 수 있지만, 모든 캐시가 복원 불가능한 원본인 것은 아닙니다.
+
+```text
+$we-need-to-talk 초안 복구 정책 --audience manager --mode security
+$we-need-to-talk 주문 처리 흐름 --audience "디자이너와 PM" --contracts all
+```
 
 ## 설치
 
@@ -175,8 +205,12 @@ $we-need-to-talk 취소와 타임아웃 정책 --mode security --spiciness hell 
 | 주제 | 면담할 대상. 앞선 대화에서 알 수 있으면 생략 가능 |
 | `--mode gauntlet\|vc\|partner\|security` | 면담 관점. 새 세션의 기본값 `gauntlet` |
 | `--spiciness mild\|spicy\|hell` | 면담 강도. 기본값 `spicy` |
+| `--audience <청중>` | 설명 대상. 생략하면 대화 맥락에 맞춤 |
+| `--contracts all\|none` | 독자별 문서 3종 생성. 새 세션 기본값 `all` |
 | `--output <경로>` | 새 세션을 저장할 폴더 |
 | `--resume <경로>` | 기존 세션 재개. 별도 지정이 없으면 저장된 모드·관문·강도 유지 |
+
+청중과 출력 설정도 재개 시 유지합니다. contracts 설정이 없는 0.3 이전 세션은 `none`으로 이어가며 `--contracts all`로 변경할 수 있습니다.
 
 이 옵션은 코딩 에이전트 안에서 스킬이 해석합니다. 별도의 터미널 명령어가 아닙니다.
 
@@ -206,7 +240,11 @@ docs/specs/notes-app-2026-10-27/
 ├── draft-storage.md        # 결정, 이해 확인 근거, 답변 기록
 ├── recovery-policy.md
 ├── _final-contract.md      # 정리된 실행 명세
-└── _deferred-risks.md       # 보류 항목이 있을 때만 생성
+├── _deferred-risks.md       # 보류 항목이 있을 때만 생성
+└── contracts/              # 새 세션 기본값. --contracts none으로 생략 가능
+    ├── 1-for-coding-agent.md
+    ├── 2-for-manager-exec.md
+    └── 3-for-designer-pm.md
 ```
 
 `--output`이 없으면 프로젝트의 `docs/specs/`에, 프로젝트가 없으면 `~/Documents/interviews/`에 저장합니다. 각 파일은 기록할 내용이 생길 때 만듭니다.
@@ -225,6 +263,29 @@ docs/specs/notes-app-2026-10-27/
 
 `ready`는 명세의 준비 상태이며 구현·테스트 완료를 뜻하지 않습니다. 스킬은 에이전트가 따를 절차를 정의하며, 파일 저장을 강제하는 별도 실행 엔진은 포함하지 않습니다.
 
+## 한 번 면담하고 세 직군에 인계합니다
+
+`_final-contract.md`가 공통 원본입니다. 세 문서는 원본의 `source_revision`, `spec_status`, 결정 ID를 공유합니다.
+
+| 독자 | 전달하는 내용 |
+| --- | --- |
+| 개발자 / 코딩 에이전트 | 동작, 상태 소유권, 합의한 인터페이스, 실패 처리, 수용 기준 |
+| 매니저 / 경영진 | 사용자 가치, 범위, 의도적으로 뺀 기능, 의존성, 중요한 위험 |
+| 디자이너 / PM | 사용자 흐름, 화면 상태, 실패 안내, 복구 동작 |
+
+합의하지 않은 일정·타입·화면 문구는 미정 또는 제안으로 남깁니다. 차단 쟁점은 영향을 받는 모든 문서에 전달합니다. 결정이 바뀌면 기존 문서는 `stale`로 표시하고 새 원본 개정에서 갱신합니다. 문서 묶음의 `current`는 파일이 원본과 일치한다는 뜻이며, `incomplete` 명세가 준비 완료로 바뀌었다는 뜻이 아닙니다.
+
+## 정말 더 잘 캐묻는지는 측정합니다
+
+[A/B 평가 도구](evals/README.ko.md)는 기본 에이전트와 스킬 적용 에이전트를 여섯 고정 대화로 비교합니다. 전문용어, 결과의 오해, 이해한 위임, 독자별 문서 일치 등을 다룹니다. 응답·도구 이벤트·실제 파일 스냅샷을 남기고, 프로그램 검사와 근거를 인용하는 모델 채점을 함께 사용합니다.
+
+```sh
+# 오프라인 계획 확인만 수행. 모델 호출 없음
+python3 scripts/run-evals.py
+```
+
+실제 호출에는 모델·예산과 `--live`를 명시해야 합니다. 근거나 채점이 누락되면 통과율 차이를 확정하지 않습니다. **아직 실측 개선 수치는 없습니다.** 고정 응답 테스트는 평가기의 동작을 확인하며 실제 면담 품질을 입증하지는 않습니다. 방법과 한계는 평가 안내에 적었습니다.
+
 ## 동작 흐름
 
 ```mermaid
@@ -232,11 +293,14 @@ flowchart LR
     A["사전 조사<br/>관련 근거 확인"] --> V["VC<br/>범위 가지치기"]
     V --> P["Partner<br/>계약과 모순 정리"]
     P --> S["Security<br/>실패 동작 결정"]
-    S --> F["최종 명세<br/>준비 완료 또는 미완료"]
+    S --> F["공통 원본 명세<br/>준비 완료 또는 미완료"]
+    F --> E["개발자 / 에이전트"]
+    F --> M["매니저 / 경영진"]
+    F --> D["디자이너 / PM"]
     S -. 앞선 전제 변경 .-> V
 ```
 
-각 관문 안에서는 **AUDIT → CONFRONT → LOCK → DRILL**을 반복합니다. Readback Check는 중요한 선택이 불명확할 때 이 루프 안에서 수행하며, 모든 사용자가 거쳐야 하는 별도 관문은 아닙니다.
+각 관문 안에서는 **AUDIT → CONFRONT → LOCK → DRILL**을 반복합니다. 필요할 때 Readback Check와 Feynman Probe를 이 루프 안에서 수행합니다. 청중 맞춤 설명은 결정을 이해하도록 돕고, 별도의 필수 관문을 추가하지 않습니다.
 
 스킬은 [`plugins/we-need-to-talk/skills/we-need-to-talk`](plugins/we-need-to-talk/skills/we-need-to-talk)에 있습니다. 두 플러그인이 같은 지침과 템플릿을 사용합니다.
 
@@ -255,6 +319,6 @@ flowchart LR
 
 ## 만든 사람과 라이선스
 
-[Malko](https://github.com/Malko-opensource)가 만들었습니다. 답변마다 기록하는 면담 아이디어는 [`deep-interview`](https://github.com/aviz85/claude-skills-library/tree/90bbc16773886226be46375bec52a910dbfcf711/plugins/deep-interview)에서 영감을 받았습니다. 출처는 [SOURCES.md](SOURCES.md)에 있습니다.
+[Malko](https://github.com/Malko-opensource)가 만들었습니다. 답변마다 기록하는 아이디어는 [`deep-interview`](https://github.com/aviz85/claude-skills-library/tree/90bbc16773886226be46375bec52a910dbfcf711/plugins/deep-interview), 청중 맞춤과 Assertion 기반 비교는 [`DreambigOu/ELI5`](https://github.com/DreambigOu/ELI5/tree/a766623b062331fdde53467001379b4ddf3acc2f)에서 영감을 받았습니다. 확인한 커밋과 출처는 [SOURCES.md](SOURCES.md)에 기록했습니다.
 
-[MIT](LICENSE). README 그림은 OpenAI 내장 이미지 생성 도구로 만들었으며, 프롬프트는 [docs/assets/PROVENANCE.md](docs/assets/PROVENANCE.md)에 남겼습니다.
+[MIT](LICENSE). 감자 그림은 이 프로젝트를 위해 AI로 생성했습니다. [메인 그림 프롬프트](docs/assets/PROVENANCE.md)와 [기능별 그림 8종 프롬프트](docs/assets/FEATURE-PROVENANCE.md)를 공개합니다.

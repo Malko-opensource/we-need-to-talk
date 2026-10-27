@@ -6,6 +6,9 @@
 - 모드: {{gauntlet-or-vc-or-partner-or-security}}
 - 현재 관문: {{vc-or-partner-or-security}}
 - 강도: {{spiciness}}
+- 설명 청중: {{audience-or-adaptive}}
+- 역할별 문서: {{all-or-none}}
+- contract_bundle_status: {{not-requested-or-pending-or-partial-or-current-or-stale}}
 - 목표: {{outcome}}
 - 프로젝트: {{absolute-project-path-or-none}}
 - 출력 경로: {{absolute-session-path}}
@@ -56,3 +59,10 @@
 - 다음 확인 사항: {{next-topic}}
 - 답변을 기다리는 이해 확인: {{decision-id-and-round-or-none}}
 - 저장 실패 또는 불일치: 없음
+
+## 역할별 문서
+
+요청한 파일이 실제 생성된 경우에만 링크한다. 원본이 바뀌면 이전 문서는 stale로 표시한다.
+
+| 문서 | source_revision | spec_status | 마지막 생성 회차 |
+| --- | --- | --- | --- |

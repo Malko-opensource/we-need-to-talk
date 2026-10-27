@@ -1,7 +1,7 @@
 {
   "name": "we-need-to-talk",
-  "version": "0.2.0",
-  "description": "Tri-Grill interviews for scope, architecture, and failure handling, with decision records and practical understanding checks.",
+  "version": "0.3.0",
+  "description": "Tri-Grill interviews with plain-language probes, durable decisions, and shared specs for engineers, managers, and designers.",
   "author": {
     "name": "Malko",
     "url": "https://github.com/Malko-opensource"

@@ -9,7 +9,7 @@
 [![Validate](https://github.com/Malko-opensource/we-need-to-talk/actions/workflows/validate.yml/badge.svg)](https://github.com/Malko-opensource/we-need-to-talk/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**We Need To Talk** is an interview skill for **Codex and Claude Code**. Three interview perspectives challenge your scope, your architecture, and your failure handling. Decisions are written down after every answer, and important trade-offs get a quick understanding check when expectations are unclear. The result is a specification you can hand to an implementation agent.
+**We Need To Talk** is an interview skill for **Codex and Claude Code**. Three interview perspectives challenge your scope, architecture, and failure handling. It saves decisions after every answer, unpacks unclear jargon, and explains consequences in your audience's language. One interview produces a shared specification and three handoffs: **build it, decide on it, design the experience**.
 
 Inspired by the Korean phrase **“오빠 나랑 이야기 좀 해”** — the ominous “we need to talk” — but aimed at the holes in your spec. Your dignity survives. “Make it scalable” might not.
 
@@ -35,7 +35,16 @@ This is an illustrative conversation. The skill uses your actual files and answe
 - **Pause and resume.** Continue from the saved files instead of relying on a long chat history.
 - **“Did that actually make sense?”** Check an important consequence before treating a vague “just do it” as a settled decision.
 
-No bundled server, API key, or additional service is required. You still need a working Codex or Claude Code setup with file access.
+Using the skill requires a working Codex or Claude Code setup with file access; no additional server or API key is needed. The optional live evaluation tool has separate model credentials and costs.
+
+## Meet the potato review board
+
+| Trim it, align it | Break the assumptions, keep the receipts |
+| --- | --- |
+| <img src="docs/assets/feature-vc.png" width="360" alt="A potato trims a giant feature tower down to an MVP"><br>**VC · Scope Guillotine**<br>“All of that? For v1?” | <img src="docs/assets/feature-partner.png" width="360" alt="A detective potato examines contradictory blueprints"><br>**Partner · Consistency Grill**<br>“Your two diagrams disagree.” |
+| <img src="docs/assets/feature-security.png" width="360" alt="A rescue potato saves a document from a crashed laptop"><br>**Security · Catastrophe Drill**<br>“And when the process dies?” | <img src="docs/assets/feature-records.png" width="360" alt="A potato saves answers before asking another question"><br>**Incremental records**<br>Save the answer. Then ask the next question. |
+| <img src="docs/assets/feature-feynman.png" width="360" alt="Potatoes turn a tangled explanation into three simple steps"><br>**Feynman Probe + Readback**<br>“Who does what? What happens next?” | <img src="docs/assets/feature-audience.png" width="360" alt="One system explained to an engineer, manager and designer"><br>**Audience-adaptive framing**<br>Same facts. Different lenses. |
+| <img src="docs/assets/feature-contracts.png" width="360" alt="One specification printed as build, decide and design documents"><br>**Multi-audience contracts**<br>One spec. Three useful handoffs. | <img src="docs/assets/feature-evals.png" width="360" alt="A scientist potato compares baseline and skill on equal scales"><br>**Assertion-based A/B evals**<br>Measure the behavior. Keep the evidence. |
 
 ## Choose your interviewer
 
@@ -86,6 +95,27 @@ Saying “go with your recommendation” can mean informed delegation—or a tra
 The playful Korean version is **“오빠, 내가 한 말 이해한 거 맞아?”** The useful part is the concrete scenario that follows it. If the answer is “but it still comes back, right?”, the misunderstanding becomes an open issue instead of a false agreement.
 
 The check is for consequential, unclear choices. It skips small implementation details and trade-offs you've already acknowledged. You can ask for an explanation, delegate the decision, or decline the check. It does not grade your knowledge or require repeated approval.
+
+## “Explain the flow without the buzzwords”
+
+**Feynman Probe** starts when a technical phrase leaves the actors, sequence, completion or failure behavior unclear. Jargon alone is not a mistake.
+
+> **You:** “It's loosely coupled and event-driven, so it recovers automatically.”
+>
+> **Skill:** “Walk me through one order without those labels. Who notices a missing delivery, and who sends it again?”
+>
+> **You:** “I don't know. Explain the options.”
+>
+> **Skill:** *Explains the choices instead of giving another quiz.*
+
+The probe finds gaps in a flow; Readback checks whether a choice's consequences match your expectations. They share the same 1–2-question budget, and both respect informed delegation.
+
+**Audience-adaptive framing** changes vocabulary and emphasis, while preserving the facts. A manager might hear “an unsaved document”; an engineer gets the RAM-to-disk boundary; a designer gets the lost-draft state and recovery path. An analogy always connects back to the real system and says where it stops fitting. RAM-only drafts with no other copy can be lost on exit; that does not mean every cache contains irreplaceable data.
+
+```text
+$we-need-to-talk Draft recovery --audience manager --mode security
+$we-need-to-talk Order workflow --audience "designer and PM" --contracts all
+```
 
 ## Install
 
@@ -175,8 +205,12 @@ $we-need-to-talk Cancellation and timeout behavior --mode security --spiciness h
 | Topic | What to interview you about; existing conversation context can supply it |
 | `--mode gauntlet\|vc\|partner\|security` | Interview perspective; defaults to `gauntlet` for new sessions |
 | `--spiciness mild\|spicy\|hell` | Interview intensity; defaults to `spicy` |
+| `--audience <audience>` | Match explanations to your context; adaptive when omitted |
+| `--contracts all\|none` | Three audience handoffs; defaults to `all` for new sessions |
 | `--output <path>` | A new session directory |
 | `--resume <path>` | Continue with the saved mode, stage, and intensity unless overridden |
+
+Audience and output preferences also persist on resume. Sessions created before 0.3 without a contracts setting keep `none` until you request `--contracts all`.
 
 These are arguments interpreted by the skill inside your coding agent, not a separate terminal command.
 
@@ -206,7 +240,11 @@ docs/specs/notes-app-2026-10-27/
 ├── draft-storage.md        # Decisions, readback evidence, interview history
 ├── recovery-policy.md
 ├── _final-contract.md      # Consolidated implementation specification
-└── _deferred-risks.md       # Created only when something is deferred
+├── _deferred-risks.md       # Created only when something is deferred
+└── contracts/              # Default for new sessions; disable with --contracts none
+    ├── 1-for-coding-agent.md
+    ├── 2-for-manager-exec.md
+    └── 3-for-designer-pm.md
 ```
 
 Without `--output`, sessions go under the project's `docs/specs/`, or `~/Documents/interviews/` when there is no project. Files appear as they become useful.
@@ -225,6 +263,29 @@ Stage progress is tracked separately: `pending`, `active`, `complete`, `deferred
 
 `ready` describes the specification, not implemented or tested software. The skill gives the agent a workflow; it is not a separate engine that enforces every file write.
 
+## One interview, three handoffs
+
+`_final-contract.md` remains the canonical specification. The three views share its `source_revision`, `spec_status` and decision IDs:
+
+| Reader | What they receive |
+| --- | --- |
+| Engineer / coding agent | Behavior, state ownership, agreed interfaces, failures and acceptance criteria |
+| Manager / executive | User value, scope, deliberate exclusions, dependencies and material risks |
+| Designer / PM | User flows, screen states, failure messages and recovery behavior |
+
+Unagreed dates, types and UI copy stay unknown or explicitly proposed. Blockers stay visible in every affected view. If a decision changes, old views become `stale`; they are refreshed from the new canonical revision. Bundle status `current` means the documents match, not that an `incomplete` spec has become ready.
+
+## Does the skill actually help?
+
+The [A/B evaluation harness](evals/README.md) compares baseline and with-skill agents across six scripted cases, including jargon, misunderstood consequences, informed delegation and multi-audience consistency. It captures responses, tool events and actual file snapshots; assertions combine deterministic checks with evidence-citing model judgments.
+
+```sh
+# Offline plan only — no model calls
+python3 scripts/run-evals.py
+```
+
+Live runs require an explicit model, budget and `--live`. Incomplete evidence or grading suppresses the delta. **We do not yet claim a measured improvement.** Fixture tests validate the evaluator, not the quality of a live interview. See the evaluation guide for the method and its limits.
+
 ## Under the hood
 
 ```mermaid
@@ -232,11 +293,14 @@ flowchart LR
     A["Pre-audit<br/>Read the evidence"] --> V["VC<br/>Trim the scope"]
     V --> P["Partner<br/>Resolve contradictions"]
     P --> S["Security<br/>Define failure behavior"]
-    S --> F["Final specification<br/>Ready or incomplete"]
+    S --> F["Canonical specification<br/>Ready or incomplete"]
+    F --> E["Engineer / Agent"]
+    F --> M["Manager / Executive"]
+    F --> D["Designer / PM"]
     S -. Changed earlier assumptions .-> V
 ```
 
-Inside each stage: **AUDIT → CONFRONT → LOCK → DRILL**. Readback Check fits into that loop when a consequential choice is unclear; it is not a fourth mandatory stage.
+Inside each stage: **AUDIT → CONFRONT → LOCK → DRILL**. Readback Check and Feynman Probe fit into that loop when needed. Audience framing helps explain a decision; it does not add a fourth mandatory stage.
 
 The portable skill lives in [`plugins/we-need-to-talk/skills/we-need-to-talk`](plugins/we-need-to-talk/skills/we-need-to-talk). Both plugin manifests point to the same instructions and templates.
 
@@ -255,6 +319,6 @@ Format validation, packaging checks, and local skill discovery have been checked
 
 ## Credits and license
 
-Created by [Malko](https://github.com/Malko-opensource). The incremental interview idea was inspired by [`deep-interview`](https://github.com/aviz85/claude-skills-library/tree/90bbc16773886226be46375bec52a910dbfcf711/plugins/deep-interview). See [SOURCES.md](SOURCES.md) for attribution.
+Created by [Malko](https://github.com/Malko-opensource). Inspired by [`deep-interview`](https://github.com/aviz85/claude-skills-library/tree/90bbc16773886226be46375bec52a910dbfcf711/plugins/deep-interview) for incremental records and [`DreambigOu/ELI5`](https://github.com/DreambigOu/ELI5/tree/a766623b062331fdde53467001379b4ddf3acc2f) for audience framing and assertion-based comparisons. See [SOURCES.md](SOURCES.md) for inspected revisions and attribution.
 
-[MIT](LICENSE). The README illustration was generated with OpenAI's built-in image-generation tool; its prompt is in [docs/assets/PROVENANCE.md](docs/assets/PROVENANCE.md).
+[MIT](LICENSE). Original AI-generated potato artwork: [hero prompt](docs/assets/PROVENANCE.md) and [eight feature prompts](docs/assets/FEATURE-PROVENANCE.md).

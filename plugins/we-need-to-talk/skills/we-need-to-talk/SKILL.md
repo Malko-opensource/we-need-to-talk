@@ -1,6 +1,6 @@
 ---
 name: we-need-to-talk
-description: "Interview users about requirements through VC scope, Partner consistency, and Security failure-case modes, or a combined Tri-Grill gauntlet. Record decisions after every answer and check consequential trade-offs before treating vague assent as agreement. Use for 'we need to talk', 'grill my spec', 'interview me about the requirements', '스펙 털어줘', '이 아이디어 그릴링해줘', or '인터뷰로 요구사항 잡아줘'. Do not turn ordinary implementation requests or casual conversations into an interview."
+description: "Interview users about requirements through VC scope, Partner consistency, and Security failure-case modes, or a combined Tri-Grill gauntlet. Record decisions after every answer, clarify jargon with audience-matched explanations, and produce a canonical spec with engineer, manager, and designer views. Use for 'we need to talk', 'grill my spec', 'interview me about the requirements', '스펙 털어줘', '이 아이디어 그릴링해줘', or '인터뷰로 요구사항 잡아줘'. Do not turn ordinary implementation requests or casual conversations into an interview."
 ---
 
 # We Need To Talk
@@ -21,6 +21,7 @@ description: "Interview users about requirements through VC scope, Partner consi
 
 ```text
 $we-need-to-talk <주제> [--mode gauntlet|vc|partner|security] [--spiciness mild|spicy|hell] [--output <경로>]
+$we-need-to-talk <주제> [--audience <청중>] [--contracts all|none]
 $we-need-to-talk --resume <기존 세션 경로>
 ```
 
@@ -28,6 +29,10 @@ $we-need-to-talk --resume <기존 세션 경로>
   사용자가 낮추거나 그만하라고 하면 즉시 따른다.
 - `--resume`에서는 저장된 모드·현재 관문·강도를 유지하고 새로 지정한 옵션만 바꾼다.
   모드가 없는 예전 세션은 기존 흐름을 보존하는 `partner`로 기록한다. 이를 세 관문 완료로 바꾸지 않는다.
+- `--audience`는 면담 설명의 대상이다. 지정하지 않으면 대화에서 드러난 배경과 관심사에 맞추고,
+  나이·직함으로 이해도를 단정하지 않는다. 기본값을 '5살'로 설정하지 않는다.
+- `--contracts`는 최종 명세의 역할별 문서 생성 여부다. 새 세션은 `all`, 값이 없는 예전 세션 재개는 `none`.
+  재개 시 저장된 청중·출력 설정을 유지하고 명시적으로 바꾼 값만 갱신한다.
 - `--output`은 새 세션 경로, `--resume`은 이어갈 경로다. 둘을 함께 주면 어느 세션인지 먼저 확인한다.
 - 주제를 주변 대화에서 알 수 있으면 재질문하지 않는다. 정말 없으면 주제 하나만 묻는다.
 - 이 스킬 자체가 구현·배포·외부 전송을 허가하지는 않는다. 면담만 요청받았다면 명세 작성까지 한다.
@@ -125,6 +130,18 @@ $we-need-to-talk --resume <기존 세션 경로>
 - 사용자가 설명을 원하면 풀어 설명하고, 확인을 원치 않으면 위임·보류 의도를 따른다.
   이해했다고 꾸미지 않고 실제 답변과 미결정만 기록한다. 이해도 확인 자체를 새로운 승인 절차로 만들지 않는다.
 
+### Feynman Probe — 전문용어 없이 흐름 설명하기
+
+용어가 많다는 이유만으로 시험하지 않는다. **누가 무엇을 받고, 언제 완료되고, 실패하면 누가 처리하는지**
+불명확할 때 [references/audience.md](references/audience.md)를 읽고 쉬운 말로 흐름을 짚는다.
+
+- “이벤트 드리븐으로 알아서” 대신 실제 주체·순서·완료 조건을 설명하도록 한 가지를 묻는다.
+  Readback Check와 합쳐 회차당 1~2개 질문 한도를 지킨다.
+- 사용자가 모르거나 설명을 원하면 에이전트가 먼저 설명한다. 비유를 잘 만드는 능력을 이해도의 척도로 쓰지 않는다.
+- 비유는 **직관 → 실제 구성요소 대응 → 비유의 한계 → 선택의 결과**로 연결한다.
+  손실·권한·시간 제약을 단순화 때문에 바꾸거나 근거 없는 속도·비용 수치를 붙이지 않는다.
+- 쉬운 설명도 거절·위임할 수 있다. 같은 확인을 반복해 작업을 막지 않는다.
+
 ## 3. LOCK — 답변을 받으면 먼저 기록
 
 **다음 질문을 보내기 전에 이번 답변을 저장하고 성공 여부를 확인한다.**
@@ -154,6 +171,7 @@ $we-need-to-talk --resume <기존 세션 경로>
 - **불명확한 충돌**: 양립하지 않는 두 기록의 ID와 출처를 제시하고 무엇을 바꾸려는지 묻는다.
   해결 전까지 쟁점을 열어 두고 관련 결정을 `contested`로 표시한다.
 - 최종 명세가 이미 있으면 새 답변 때문에 내용이 달라지는 즉시 `stale`로 바꾸고, 재정리할 때 새 개정 번호를 쓴다.
+  역할별 문서가 있으면 함께 `stale`로 표시한다. 원본만 갱신하고 이전 문서 묶음을 최신이라고 안내하지 않는다.
 - 관문의 근거가 된 결정이 바뀌면 영향받은 완료 관문만 `needs-review`로 바꾼다.
   변경 이유와 관련 ID를 남기고 해당 부분을 확인한다. 모든 질문을 처음부터 되풀이하지 않는다.
 
@@ -203,7 +221,16 @@ $we-need-to-talk --resume <기존 세션 경로>
 준비 상태와 사용자의 명세 검토 여부를 각각 기록한다. 사용자가 요청하지 않은 별도의 서명 절차를 강제하지 않는다.
 미결정을 합의로 바꾸거나 근거 없는 기본값으로 `ready`를 만들지 않는다.
 
-마무리는 현재 상태, 핵심 결정, 남은 차단 쟁점, 최종 명세 경로를 짧게 전달한다.
+### 한 명세, 세 가지 독자
+
+`--contracts all`이면 [references/contracts.md](references/contracts.md)에 따라 최종 명세에서
+개발자·코딩 에이전트, 경영진, 디자이너·PM용 문서 3종을 만든다.
+세 문서는 같은 개정·명세 상태·결정 ID를 공유한다. 없는 타입, 일정, 수익, UI 문구를 확정 사실로 만들지 않는다.
+`incomplete`도 그대로 전달하고, 출력 파일의 완성 여부와 명세의 준비 상태를 별도로 기록한다.
+
+마무리는 현재 상태, 핵심 결정, 남은 차단 쟁점, 최종 명세와 역할별 문서 경로를 짧게 전달한다.
 면담만 요청받았다면 여기서 끝내고, 구현까지 허가받았다면 정리된 범위에서 이어간다.
 
 구체적인 말투·변경·보류 예시는 필요할 때만 [references/examples.md](references/examples.md)를 읽는다.
+
+이 저장소의 A/B 평가는 개발용 별도 도구다. 면담 호출만으로 모델 비교·유료 평가를 실행하지 않는다.

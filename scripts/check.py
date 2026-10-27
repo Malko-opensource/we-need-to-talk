@@ -21,7 +21,8 @@ def check() -> list[str]:
         if not condition:
             errors.append(message)
 
-    documents = list(ROOT.glob("*.md")) + list((ROOT / "docs").rglob("*.md")) + list(PLUGIN.rglob("*.md"))
+    documents = (list(ROOT.glob("*.md")) + list((ROOT / "docs").rglob("*.md"))
+                 + list((ROOT / "evals").glob("*.md")) + list(PLUGIN.rglob("*.md")))
     for path in documents:
         text = path.read_text(encoding="utf-8")
         require("[TODO:" not in text, f"Unfinished scaffold: {path.relative_to(ROOT)}")
@@ -29,7 +30,9 @@ def check() -> list[str]:
             continue  # These links describe generated session files, not repository files.
         # Fenced examples are not documentation links.
         prose = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
-        for target in re.findall(r"\]\(([^)]+)\)", prose):
+        targets = re.findall(r"\]\(([^)]+)\)", prose)
+        targets += re.findall(r'<img\b[^>]*\bsrc="([^"]+)"', prose)
+        for target in targets:
             if target.startswith(("https://", "http://", "mailto:", "#")):
                 continue
             linked = (path.parent / unquote(target.split("#")[0].strip("<>"))).resolve()
@@ -63,6 +66,9 @@ def check() -> list[str]:
         require((ROOT / path).resolve() == PLUGIN, f"Invalid marketplace path: {relative}")
     require((ROOT / "LICENSE").read_bytes() == (PLUGIN / "LICENSE").read_bytes(), "Packaged license differs from root license")
     require((ROOT / "docs/assets/we-need-to-talk.png").read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), "README image must be a PNG")
+    for feature in ("vc", "partner", "security", "records", "feynman", "audience", "contracts", "evals"):
+        asset = ROOT / f"docs/assets/feature-{feature}.png"
+        require(asset.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid feature PNG: {asset.name}")
     return errors
 
 
@@ -73,4 +79,4 @@ if __name__ == "__main__":
         sys.exit(f"Validation failed: {error}")
     if failures:
         sys.exit("\n".join(failures))
-    print("PASS: skill metadata, manifests, licenses, README image, and local documentation links")
+    print("PASS: skill metadata, manifests, licenses, README images, and local documentation links")

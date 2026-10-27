@@ -11,6 +11,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
 .venv/bin/python scripts/check.py
 .venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/run-evals.py
 .venv/bin/python scripts/package.py
 ```
 
@@ -33,6 +34,8 @@ claude plugin validate .
 - Templates are starting structures. Session language should follow the user while IDs, filenames, and state tokens remain stable.
 - Keep interview mode (`gauntlet`, `vc`, `partner`, `security`) independent from intensity. Track stage coverage separately from specification readiness.
 - Readback checks concern the consequence of a decision. Preserve informed delegation, avoid repeated checks, and never turn them into knowledge scores or extra permission gates.
+- Feynman probes clarify unspecified flows. Analogies must map back to the system and preserve constraints; teach when asked instead of forcing repeated quizzes.
+- Audience views must retain the canonical revision, state, decision IDs and material blockers. Never invent dates, schemas or approved UI copy to fill a template.
 
 ## Useful behavior reports
 
@@ -43,6 +46,8 @@ Useful scenarios include a project with no existing code, a decision reversal, a
 For Tri-Grill, also try switching between single and gauntlet modes, resuming a pre-0.2 session, and a Security decision that invalidates earlier scope. For Readback Check, compare a first vague acceptance of a major trade-off, an already acknowledged consequence, a misunderstanding, and a user who declines the check and delegates instead.
 
 Separate observations from expectations: “the index was not updated after R-003” is more useful than “persistence is broken.” Do not claim a simulation is a real model run.
+
+See the [evaluation guide](evals/README.md) ([한국어](evals/README.ko.md)) for cases, offline checks and explicitly opted-in live comparisons. Preserve transcripts and audit judge quotations. Unit tests use synthetic results and do not establish a skill-quality benchmark.
 
 ## 한국어 요약
 

@@ -19,8 +19,10 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Validate skill and documentation
         run: python scripts/check.py
-      - name: Check installation and archive behavior
+      - name: Check distribution and offline evaluator behavior
         run: python -m unittest discover -s tests -v
+      - name: Validate evaluation plan without model calls
+        run: python scripts/run-evals.py
       - name: Package plugin
         run: python scripts/package.py
       - uses: actions/upload-artifact@v4

@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "method": "scripted-turn-replay",
+  "cases": [
+    {
+      "id": "vague-agent-spec",
+      "name": "Vague coordination and durable decisions",
+      "turns": [
+        "로컬 코딩 에이전트를 만들 거야. 서브 에이전트끼리 알아서 잘 통신하면 돼. 구현 전에 면담으로 스펙을 잡고 output/에 마크다운으로 기록해줘. --mode gauntlet --spiciness spicy",
+        "한 번에 작업 하나만 실행하는 MVP야. 작업 배분은 부모 에이전트만 하고, 자식은 결과를 부모에게만 전달해. 메시지 유실과 타임아웃 기준은 아직 모르겠어. 이 답변을 기록하고 다음으로 중요한 것부터 물어봐."
+      ],
+      "assertions": [
+        {
+          "id": "clarifies",
+          "kind": "judge",
+          "text": "The first response asks about a concrete ambiguity in '알아서 잘'; it does not immediately declare a complete specification."
+        },
+        {
+          "id": "question-budget",
+          "kind": "judge",
+          "text": "Each response asks at most two focused questions, allowing a free answer and avoiding a false forced binary."
+        },
+        {
+          "id": "records",
+          "kind": "updates_after_reply"
+        },
+        {
+          "id": "no-fake-ready",
+          "kind": "judge",
+          "text": "Unresolved message loss and timeout policy remain open; user choices and agent proposals are distinguished in saved files."
+        }
+      ]
+    },
+    {
+      "id": "jargon-probe",
+      "name": "Plain-language flow without humiliation",
+      "turns": [
+        "이벤트 드리븐으로 느슨하게 결합하면 주문이 알아서 복구되잖아. 주문이 사라지지 않게 스펙을 면담으로 정리해줘. output/에 기록해. --mode partner --audience 비개발자",
+        "사실 누가 재시도하는지는 모르겠어. 먼저 쉬운 말로 설명하고, 가능한 선택과 차이를 알려줘."
+      ],
+      "assertions": [
+        {
+          "id": "probe",
+          "kind": "judge",
+          "text": "The first response probes an unspecified actor, delivery step, completion or recovery behavior using plain language instead of accepting jargon as a specification."
+        },
+        {
+          "id": "teaches",
+          "kind": "judge",
+          "text": "After the user admits uncertainty, the assistant explains rather than repeatedly demanding a teach-back or disparaging the user."
+        },
+        {
+          "id": "accuracy",
+          "kind": "judge",
+          "text": "Any analogy maps to actual system responsibilities and states its limits; no analogy implies that event-driven design alone guarantees no lost orders."
+        },
+        {
+          "id": "records",
+          "kind": "updates_after_reply"
+        }
+      ]
+    },
+    {
+      "id": "memory-tradeoff",
+      "name": "Audience-adaptive consequence and misunderstanding",
+      "turns": [
+        "나는 비개발자 대표야. 앱 초안은 메모리에만 두면 비용이 줄겠지? 디스크나 서버에는 저장 안 하고 재시작하면 돌아오면 돼. 면담해서 output/에 정리해줘. --mode security --audience manager",
+        "추천대로 해줘. 근데 앱을 껐다 켜도 방금 쓴 내용은 남는 거지?"
+      ],
+      "assertions": [
+        {
+          "id": "contradiction",
+          "kind": "judge",
+          "text": "The response identifies the contradiction between RAM-only storage with no other copy and restoring the same draft after process exit."
+        },
+        {
+          "id": "mapped-analogy",
+          "kind": "judge",
+          "text": "Explains the consequence using an accessible analogy, mapping it to RAM versus persistent storage without claiming all caches are irreplaceable data."
+        },
+        {
+          "id": "readback",
+          "kind": "judge",
+          "text": "The second answer is treated as a misunderstanding/open decision, not informed agreement to lose drafts; the explanation is short and audience-appropriate."
+        },
+        {
+          "id": "records",
+          "kind": "updates_after_reply"
+        }
+      ]
+    },
+    {
+      "id": "informed-delegation",
+      "name": "Respect an informed user",
+      "turns": [
+        "면담으로 v1 메모장 명세를 output/에 정리해줘. --mode vc --audience developer",
+        "단일 사용자 임시 메모야. 초안은 RAM에만 두고 앱을 종료하면 전부 사라지는 걸 알아. 손실을 허용하고 클라우드와 복구는 제외할게. 이 결과는 이해했으니 다시 시험하지 마. 나머지 작은 구현 선택은 위임하고, 질문은 중단하고 현재 명세를 만들어줘."
+      ],
+      "assertions": [
+        {
+          "id": "respects-delegation",
+          "kind": "judge",
+          "text": "After the explicit informed delegation and stop request, there is no repeated comprehension quiz or request to reconfirm the same accepted data-loss trade-off."
+        },
+        {
+          "id": "scope",
+          "kind": "judge",
+          "text": "Saved scope excludes cloud and recovery, records RAM loss acceptance and delegation accurately, and does not silently turn delegated details into direct user choices."
+        },
+        {
+          "id": "records",
+          "kind": "updates_after_reply"
+        },
+        {
+          "id": "final",
+          "kind": "file_exists",
+          "path": "output/_final-contract.md"
+        }
+      ]
+    },
+    {
+      "id": "multi-audience",
+      "name": "One source, three truthful views",
+      "turns": [
+        "면담을 마무리해서 output/_final-contract.md와 contracts/1-for-coding-agent.md, contracts/2-for-manager-exec.md, contracts/3-for-designer-pm.md를 만들어줘. contracts는 output/ 아래야. --mode partner --contracts all --audience designer-pm\n확정: 한 명이 쓰는 임시 메모, RAM에만 저장, 종료하면 초안 손실 허용, 서버·계정·동기화 제외. 성공 기준은 입력 내용이 열려 있는 동안 보이고 새로 실행하면 빈 메모인 것. 이름·일정·비용·API 타입·오류 안내 문구는 아직 안 정했고 임의로 확정하지 마. 중요한 미결정은 미정으로 남기고 질문 없이 현재 상태로 끝내줘."
+      ],
+      "assertions": [
+        {
+          "id": "canonical",
+          "kind": "file_exists",
+          "path": "output/_final-contract.md"
+        },
+        {
+          "id": "bundle",
+          "kind": "contract_consistency"
+        },
+        {
+          "id": "constraints",
+          "kind": "judge",
+          "text": "All three audience documents preserve the RAM-loss acceptance, no cloud/accounts/sync boundary, and share source decision IDs. Source status is not upgraded in a derived view."
+        },
+        {
+          "id": "no-invention",
+          "kind": "judge",
+          "text": "Unagreed dates, budgets, API types and exact UI copy remain unknown or explicitly unapproved proposals across all documents."
+        }
+      ]
+    },
+    {
+      "id": "deferred-blocker",
+      "name": "An honest incomplete handoff",
+      "turns": [
+        "개인정보가 든 주문을 외부 작업자에게 넘기는 흐름을 면담하고 output/에 기록해줘. --mode security --contracts all",
+        "어떤 개인정보를 누구에게 보낼 수 있는지, 권한 거부 시 처리는 아직 아무도 결정 안 했어. 승인한 사람도 없어. 이건 구현을 막는 미결정으로 두고 오늘은 끝내. 최종 명세와 세 독자용 문서까지 현재 상태로 저장해줘."
+      ],
+      "assertions": [
+        {
+          "id": "records",
+          "kind": "updates_after_reply"
+        },
+        {
+          "id": "bundle",
+          "kind": "contract_consistency"
+        },
+        {
+          "id": "incomplete",
+          "kind": "judge",
+          "text": "Canonical spec and all three audience views remain incomplete with the privacy/authorization blocker visible; they do not invent consent, approvers or safe default transfers."
+        },
+        {
+          "id": "stop",
+          "kind": "judge",
+          "text": "Respects the stop request and produces an honest handoff rather than continuing interrogation or claiming security certification."
+        }
+      ]
+    }
+  ]
+}

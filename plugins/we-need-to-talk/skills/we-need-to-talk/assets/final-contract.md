@@ -1,3 +1,8 @@
+---
+source_revision: "{{revision}}"
+spec_status: "{{ready-or-incomplete-or-paused}}"
+---
+
 # 실행 명세: {{topic}}
 
 - 개정: {{revision}}
@@ -54,3 +59,9 @@
 - 요청받은 다음 작업: {{authorized-next-work-or-spec-only}}
 - 구현자가 다시 확인할 외부 사실: {{facts-that-may-change-or-none}}
 - 결정 변경 시: 원본 기록에 새 결정과 대체 관계를 남기고 이 명세의 개정을 갱신한다.
+
+## 역할별 문서
+
+{{links-to-generated-contracts-or-not-requested}}
+
+역할별 문서는 이 명세에서 파생한다. 같은 source_revision과 spec_status인지 확인한다.
