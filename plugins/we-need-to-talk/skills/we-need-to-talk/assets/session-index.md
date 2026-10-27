@@ -3,6 +3,8 @@
 - 세션 ID: {{topic-slug}}-{{YYYY-MM-DD}}
 - 날짜 / 시간대: {{date}} / {{timezone}}
 - 상태: in-progress
+- 모드: {{gauntlet-or-vc-or-partner-or-security}}
+- 현재 관문: {{vc-or-partner-or-security}}
 - 강도: {{spiciness}}
 - 목표: {{outcome}}
 - 프로젝트: {{absolute-project-path-or-none}}
@@ -10,6 +12,17 @@
 - 마지막 저장 회차: 없음
 - 최종 명세: 아직 생성하지 않음
 - 사용자 명세 검토: 아직 요청하거나 받지 않음
+
+## 관문 진행 상태
+
+선택한 관문의 상태와 근거를 기록한다. 단일 모드에서 검토하지 않은 관문은 not-reviewed로 남긴다.
+관문 상태: pending / active / complete / deferred / needs-review / not-reviewed.
+
+| 관문 | 상태 | 완료 또는 보류 근거·관련 ID | 재검토 이유 |
+| --- | --- | --- | --- |
+| vc | {{vc-status}} | {{vc-evidence}} | {{vc-recheck-or-none}} |
+| partner | {{partner-status}} | {{partner-evidence}} | {{partner-recheck-or-none}} |
+| security | {{security-status}} | {{security-evidence}} | {{security-recheck-or-none}} |
 
 ## 사전 확인
 
@@ -41,4 +54,5 @@
 
 - 답변을 기다리는 질문: {{pending-question-or-none}}
 - 다음 확인 사항: {{next-topic}}
+- 답변을 기다리는 이해 확인: {{decision-id-and-round-or-none}}
 - 저장 실패 또는 불일치: 없음

@@ -3,9 +3,20 @@
 - 개정: {{revision}}
 - 명세 상태: {{ready-or-incomplete-or-paused}}
 - 기준 회차 / 날짜: {{last-round}} / {{date}}
+- 면담 모드 / 강도: {{mode}} / {{spiciness}}
 - 사용자 명세 검토: {{not-reviewed-or-user-statement-with-round}}
 - 실제 구현·검증 결과: 이 면담에서는 검증하지 않음
 - 원본 기록: [_session-index.md](_session-index.md)
+
+## 검토 범위
+
+| 관문 | 상태 | 확인한 내용·근거 | 검토하지 않았거나 다시 확인할 내용 |
+| --- | --- | --- | --- |
+| vc | {{vc-status}} | {{vc-summary}} | {{vc-open-or-none}} |
+| partner | {{partner-status}} | {{partner-summary}} | {{partner-open-or-none}} |
+| security | {{security-status}} | {{security-summary}} | {{security-open-or-none}} |
+
+단일 모드의 관문 완료를 전체 명세의 준비 완료로 바꾸지 않는다. Security 면담은 보안 테스트 결과가 아니다.
 
 ## 목표와 범위
 
@@ -33,6 +44,7 @@
 
 - 차단 쟁점: {{blocking-items-or-none}}
 - 보류 항목과 적용할 기본값: {{deferred-items-or-none}}
+- 이해가 엇갈린 결정 또는 위임된 판단: {{relevant-decision-and-round-ids-or-none}}
 - 상태 판정 근거: {{why-ready-or-why-incomplete}}
 
 보류 파일이 실제로 있을 때만 링크한다. 미결 항목이 허용하는 작업 범위도 적는다.

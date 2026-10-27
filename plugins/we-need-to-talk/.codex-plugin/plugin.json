@@ -1,7 +1,7 @@
 {
   "name": "we-need-to-talk",
-  "version": "0.1.0",
-  "description": "Turn ambiguous requirements into durable specifications through sharp, evidence-backed interviews.",
+  "version": "0.2.0",
+  "description": "Tri-Grill interviews for scope, architecture, and failure handling, with decision records and practical understanding checks.",
   "author": {
     "name": "Malko",
     "url": "https://github.com/Malko-opensource"
@@ -16,14 +16,14 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "We Need To Talk",
-    "shortDescription": "Sharp interviews. Clear specs. Written receipts.",
+    "shortDescription": "Three perspectives. Clear trade-offs. Written specs.",
     "category": "Productivity",
     "capabilities": [
       "Interactive",
       "Write"
     ],
     "defaultPrompt": [
-      "Use $we-need-to-talk to interview me about my feature and write an actionable specification."
+      "Use $we-need-to-talk to grill my idea through VC, Partner, and Security perspectives and write the specification in my language."
     ],
     "developerName": "Malko",
     "websiteURL": "https://github.com/Malko-opensource/we-need-to-talk"

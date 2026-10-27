@@ -31,12 +31,16 @@ claude plugin validate .
 - Preserve the core behavior: read relevant evidence, ask 1–2 questions, save each answer, expose unresolved decisions.
 - Intensity changes the depth of scrutiny. It must not remove the user's ability to revise, defer, or stop.
 - Templates are starting structures. Session language should follow the user while IDs, filenames, and state tokens remain stable.
+- Keep interview mode (`gauntlet`, `vc`, `partner`, `security`) independent from intensity. Track stage coverage separately from specification readiness.
+- Readback checks concern the consequence of a decision. Preserve informed delegation, avoid repeated checks, and never turn them into knowledge scores or extra permission gates.
 
 ## Useful behavior reports
 
 Format and package checks cannot prove interview quality. For an interview report, include the agent/model version, the language and intensity, the smallest reproducible prompt, and the observed file changes. Remove private data and credentials before sharing.
 
 Useful scenarios include a project with no existing code, a decision reversal, an unresolved contradiction, a deferred blocker, a write failure, resuming after an interrupted write, and an English-language session using the Korean templates.
+
+For Tri-Grill, also try switching between single and gauntlet modes, resuming a pre-0.2 session, and a Security decision that invalidates earlier scope. For Readback Check, compare a first vague acceptance of a major trade-off, an already acknowledged consequence, a misunderstanding, and a user who declines the check and delegates instead.
 
 Separate observations from expectations: “the index was not updated after R-003” is more useful than “persistence is broken.” Do not claim a simulation is a real model run.
 

@@ -17,6 +17,14 @@
 - 수용 기준: {{observable-check}}
 - 대체 관계: {{replaces-or-replaced-by-or-none}}
 
+## 선택의 결과 이해 확인
+
+필요한 결정만 기록한다. confirmed / delegated / unresolved / not-needed를 실제 근거와 함께 사용한다.
+이해 확인과 위임은 별개다. 사용자의 능력이나 기억력을 평가하는 기록을 남기지 않는다.
+
+| 관련 결정 | 회차 / 관문 | 확인한 결과와 질문 | 사용자 답변 또는 앞선 근거 | 처리 상태 / 열린 Q |
+| --- | --- | --- | --- | --- |
+
 ## 가정과 열린 쟁점
 
 | ID | 가정 또는 쟁점 | 근거 | 차단 여부와 영향 범위 | 확인 방법 |
@@ -31,6 +39,7 @@
 
 ### {{R-ID}} — {{date}}
 
+- 관문: {{vc-or-partner-or-security}}
 - 질문: {{question}}
 - 사용자 답변 요약: {{faithful-summary}}
 - 결정적인 원문 표현: {{short-quote-if-needed}}
